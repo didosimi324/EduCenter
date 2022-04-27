@@ -4,11 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Courses</h1>
+@if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
+{
+    <p>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -40,7 +43,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -66,12 +70,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Teacher.FirstName)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
+            {<td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
         </tr>
-}
+        }
     </tbody>
 </table>
